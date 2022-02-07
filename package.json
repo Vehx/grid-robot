@@ -1,0 +1,23 @@
+{
+  "name": "grid-robot",
+  "version": "1.0.0",
+  "description": "grid robot api",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vehx/grid-robot.git"
+  },
+  "author": "Vehx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vehx/grid-robot/issues"
+  },
+  "homepage": "https://github.com/Vehx/grid-robot#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "jest": "^27.5.0"
+  }
+}
