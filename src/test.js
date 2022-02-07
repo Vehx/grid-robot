@@ -20,6 +20,38 @@ Hints: use multiple classes, TDD and a healthy approach to VCS
 
 */
 
+const request = require('supertest');
+// const api = require('./index');
+const express = require('express');
+const res = require('express/lib/response');
+const app = express();
+
+describe('Sample Test', () => {
+    it('should test that true === true', () => {
+      expect(true).toBe(true)
+    });
+});
+
+describe('Get /', () => {
+    it('responds with message', () => {
+        // res = api.get('/');
+        // const res = app.get('/');
+        // const res = request(api)
+        request(app)
+            .get('/')
+            .expect(() => ('message' in res.body))
+            .expect(() => ('We did it' in res.body.message))
+            .expect(200);
+            // .end((err, res) => {
+            //     if (err) throw err;
+            // });
+            // .expect(res).toHaveProperty('message');
+            // .expect(message).toEqual('We did it');
+        // expect(res).toEqual({message:'We did it'});
+        // done();
+    });
+});
+
 
 // case 1 
 // The robot is on a 100×100 grid at location (0, 0) and facing SOUTH. The robot is given the commands “fflff” and should end up at (2, 2)

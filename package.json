@@ -18,6 +18,13 @@
   "homepage": "https://github.com/Vehx/grid-robot#readme",
   "dependencies": {
     "express": "^4.17.2",
-    "jest": "^27.5.0"
+    "jest": "^27.5.0",
+    "supertest": "^6.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
