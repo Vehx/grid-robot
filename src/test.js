@@ -21,10 +21,7 @@ Hints: use multiple classes, TDD and a healthy approach to VCS
 */
 
 const request = require('supertest');
-// const api = require('./index');
-const express = require('express');
-const res = require('express/lib/response');
-const app = express();
+const app = require('./index');
 
 describe('Sample Test', () => {
     it('should test that true === true', () => {
@@ -33,25 +30,15 @@ describe('Sample Test', () => {
 });
 
 describe('Get /', () => {
-    it('responds with message', () => {
-        // res = api.get('/');
-        // const res = app.get('/');
-        // const res = request(api)
-        request(app)
+    it('responds with message', async () => {
+        const response = await request(app)
             .get('/')
-            .expect(() => ('message' in res.body))
-            .expect(() => ('We did it' in res.body.message))
-            .expect(200);
-            // .end((err, res) => {
-            //     if (err) throw err;
-            // });
-            // .expect(res).toHaveProperty('message');
-            // .expect(message).toEqual('We did it');
-        // expect(res).toEqual({message:'We did it'});
-        // done();
+            .set('Accept', 'application/json');
+        // expect(response.headers["Content-Type"]).toMatch(/json/);
+        expect(response.status).toEqual(200);
+        expect(response.body.message).toEqual('We made it');
     });
 });
-
 
 // case 1 
 // The robot is on a 100×100 grid at location (0, 0) and facing SOUTH. The robot is given the commands “fflff” and should end up at (2, 2)
@@ -61,6 +48,30 @@ describe('Get /', () => {
 // robot.move("fflff")
 // robot.postition returns (2,2)
 
+describe('Case 1: Move robot on 100,100 grid', () => {
+    it('should return position 2,2', async () => {
+        const response = await request(app)
+            .post('/test')
+            .send({
+                grid:{
+                    x: 100,
+                    y: 100
+                },
+                robot:{
+                    x: 0,
+                    y: 0,
+                    face: 'south',
+                    move: 'fflff'
+                }
+            })
+            .set('Accept', 'application/json');
+        // expect(response.headers["Content-Type"]).toMatch(/json/);
+        expect(response.status).toEqual(200);
+        // expect(response.body.position).toEqual(2,2);
+        expect(response.body.message).toEqual('Not implemented yet');
+    });
+});
+
 // case 2
 // The robot is on a 50×50 grid at location (1, 1) and facing NORTH. The robot is given the commands “fflff” and should end up at (1, 0)
 
@@ -68,6 +79,30 @@ describe('Get /', () => {
 // robot.face("north")
 // robot.move("fflff")
 // robot.postition returns (1,0)
+
+describe('Case 2: Move robot on 50,50 grid', () => {
+    it('should return position 1,0', async () => {
+        const response = await request(app)
+            .post('/test')
+            .send({
+                grid:{
+                    x: 50,
+                    y: 50
+                },
+                robot:{
+                    x: 1,
+                    y: 1,
+                    face: 'north',
+                    move: 'fflff'
+                }
+            })
+            .set('Accept', 'application/json');
+        // expect(response.headers["Content-Type"]).toMatch(/json/);
+        expect(response.status).toEqual(200);
+        // expect(response.body.position).toEqual(1,0);
+        expect(response.body.message).toEqual('Not implemented yet');
+    });
+});
 
 // case 3
 // The robot is on a 100×100 grid at location (50, 50) and facing NORTH. The robot is given the commands “fflffrbb” but there is an obstacle at (48, 50) and should end up at (48, 49)
@@ -77,3 +112,28 @@ describe('Get /', () => {
 // robot.face("north")
 // robot.move("fflffrbb")
 // robot.postition returns (48,49)
+
+describe('Case 3: Move robot on 100,100 grid with obstacle', () => {
+    it('should return position 48,49', async () => {
+        const response = await request(app)
+            .post('/test')
+            .send({
+                grid:{
+                    x: 100,
+                    y: 100,
+                    obstacle: [48,50]
+                },
+                robot:{
+                    x: 50,
+                    y: 50,
+                    face: 'north',
+                    move: 'fflffrbb'
+                }
+            })
+            .set('Accept', 'application/json')
+        // expect(response.headers["Content-Type"]).toMatch(/json/);
+        expect(response.status).toEqual(200);
+        // expect(response.body.position).toEqual(48,49);
+        expect(response.body.message).toEqual('Not implemented yet');
+    });
+});
