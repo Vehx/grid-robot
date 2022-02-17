@@ -1,4 +1,18 @@
+class Grid {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.obstacles = [];
+    }
+    
+    addObstacle(x,y) {
+        this.obstacles.push([x,y]);
+    }
 
-// grid(x,y)
+    obstacles() {
+        return this.obstacles;
+    }
+  }
 
-// needs obstacle insertion or placement, either on creation or after creating grid
+module.exports = Grid;
+  
