@@ -3,3 +3,135 @@
 // robot takes movement in the form of a string? "fflff"
 // for each step it needs to check if it can move in the indicated direction
 // if not it should say it encountered an obstacle
+
+class Robot {
+    constructor(x = 0, y = 0, facing = "NORTH") {
+        this.x = x;
+        this.y = y;
+        this.facing = facing.toUpperCase();
+        this.ranIntoObstacle = false;
+        this.isOutOfBounds = false;
+    };
+
+    move(moveString, grid) {
+        const moveArray = moveString.split('');
+        moveArray.forEach(currentMove => {
+            if (currentMove == 'l' || currentMove == 'r') {
+                this.changeFacing(currentMove);
+            } else {
+                let nextPosition = this.calculateNextMove(currentMove);
+                this.checkOutOfBounds(nextPosition.x, nextPosition.y, grid);
+                this.checkForObstacle(nextPosition.x, nextPosition.y, grid);
+    
+                if (this.isOutOfBounds == false && this.ranIntoObstacle == false) {
+                    this.x = nextPosition.x;
+                    this.y = nextPosition.y;
+                };
+            };
+        });
+    };
+
+    calculateNextMove(move) {
+        let nextX = this.x;
+        let nextY = this.y;
+
+        if (move == 'f') {
+            switch (this.facing) {
+                case 'NORTH':
+                    nextX =- 1;
+                    break;
+                case 'EAST':
+                    nextY =+ 1;
+                    break;
+                case 'SOUTH':
+                    nextX =+ 1;
+                    break;
+                default:
+                    nextY =- 1;
+                    break;
+            };
+        } else {
+            switch (this.facing) {
+                case 'NORTH':
+                    nextX =+ 1;
+                    break;
+                case 'EAST':
+                    nextY =- 1;
+                    break;
+                case 'SOUTH':
+                    nextX =- 1;
+                    break;
+                default:
+                    nextY =+ 1;
+                    break;
+            };
+        };
+        return {x: nextX, y: nextY};
+    };
+
+    changeFacing(directionChange) {
+        switch (directionChange) {
+            case 'l':
+                switch (this.facing) {
+                    case 'NORTH':
+                        this.facing = 'WEST';
+                        break;
+                    case 'EAST':
+                        this.facing = 'NORTH';
+                        break;
+                    case 'SOUTH':
+                        this.facing = 'EAST';
+                        break;
+                    default:
+                        this.facing = 'SOUTH';
+                        break;
+                };
+                break;
+            case 'r':
+                switch (this.facing) {
+                  case 'NORTH':
+                      this.facing = 'EAST';
+                      break;
+                  case 'EAST':
+                      this.facing = 'SOUTH';
+                      break;
+                  case 'SOUTH':
+                      this.facing = 'WEST';
+                      break;
+                  default:
+                      this.facing = 'NORTH';
+                      break;
+                };
+                break;
+            default:
+                break;
+        };
+    };
+
+    checkOutOfBounds(x, y, grid) {
+        if (x < 0 || x > grid.x || y < 0 || y > grid.y) {
+            this.isOutOfBounds = true;
+        };
+    };
+
+    checkForObstacle(x, y, grid) {
+      let obstacles = grid.obstacles;
+        if (obstacles && obstacles.length > 0) {
+            obstacles.forEach(obstacle => {
+                if (obstacle.x == x && obstacle.y == y) {
+                    this.ranIntoObstacle = true;
+                };
+            });
+        };
+    };
+
+    face() {
+        return this.facing;
+    };
+
+    position() {
+        return `${this.x}, ${this.y}`;
+    };
+};
+
+module.exports = Robot;
