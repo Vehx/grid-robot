@@ -56,6 +56,54 @@ describe('Change direction robot is facing right', () => {
     });
 });
 
+describe('Check if next move is out of bounds', () => {
+    it('should return false', () => {
+        const robot = new Robot(49, 50, 'South');
+        const grid = new Grid(50, 50);
+        robot.checkOutOfBounds(50, 50, grid);
+
+        expect(robot.isOutOfBounds).toEqual(false);
+    });
+    it('should return false', () => {
+        const robot = new Robot(1, 0, 'North');
+        const grid = new Grid(50, 50);
+        robot.checkOutOfBounds(0, 0, grid);
+
+        expect(robot.isOutOfBounds).toEqual(false);
+    });
+    it('should return false', () => {
+        const robot = new Robot(20, 20, 'North');
+        const grid = new Grid(50, 50);
+        robot.checkOutOfBounds(19, 20, grid);
+
+        expect(robot.isOutOfBounds).toEqual(false);
+    });
+});
+
+describe('Check if next move is out of bounds', () => {
+    it('should return true', () => {
+        const robot = new Robot(50, 50, 'South');
+        const grid = new Grid(50, 50);
+        robot.checkOutOfBounds(51, 50, grid);
+
+        expect(robot.isOutOfBounds).toEqual(true);
+    });
+    it('should return true', () => {
+        const robot = new Robot(0, 0, 'north');
+        const grid = new Grid(50, 50);
+        robot.checkOutOfBounds(-1, 0, grid);
+
+        expect(robot.isOutOfBounds).toEqual(true);
+    });
+    it('should return true', () => {
+        const robot = new Robot(0, 0, 'west');
+        const grid = new Grid(50, 50);
+        robot.checkOutOfBounds(0, -1, grid);
+
+        expect(robot.isOutOfBounds).toEqual(true);
+    });
+});
+
 describe('Move robot forward', () => {
     it('should return position 1, 0 and face south', () => {
         const robot = new Robot(0, 0, 'South');
