@@ -6,7 +6,7 @@ class Grid {
     }
     
     addObstacle(x,y) {
-        this.obstacles.push([x,y]);
+        this.obstacles.push({x,y});
     }
 
     obstacles() {
