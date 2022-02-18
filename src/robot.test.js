@@ -104,6 +104,66 @@ describe('Check if next move is out of bounds', () => {
     });
 });
 
+describe('Check if next move is running into obstacle', () => {
+    it('should return false', () => {
+        const robot = new Robot(49, 50, 'South');
+        const grid = new Grid(50, 50);
+        grid.addObstacle(1,1);
+        robot.checkForObstacle(50, 50, grid);
+
+        expect(robot.ranIntoObstacle).toEqual(false);
+    });
+    it('should return false', () => {
+        const robot = new Robot(1, 0, 'North');
+        const grid = new Grid(50, 50);
+        grid.addObstacle(1,1);
+        grid.addObstacle(0,1);
+        robot.checkForObstacle(0, 0, grid);
+
+        expect(robot.ranIntoObstacle).toEqual(false);
+    });
+    it('should return false', () => {
+        const robot = new Robot(20, 20, 'North');
+        const grid = new Grid(50, 50);
+        grid.addObstacle(1,1);
+        grid.addObstacle(1,20);
+        grid.addObstacle(19,10);
+        robot.checkForObstacle(19, 20, grid);
+
+        expect(robot.ranIntoObstacle).toEqual(false);
+    });
+});
+
+describe('Check if next move is running into obstacle', () => {
+    it('should return true', () => {
+        const robot = new Robot(50, 50, 'South');
+        const grid = new Grid(50, 50);
+        grid.addObstacle(49,50);
+        robot.checkForObstacle(49, 50, grid);
+
+        expect(robot.ranIntoObstacle).toEqual(true);
+    });
+    it('should return true', () => {
+        const robot = new Robot(0, 0, 'north');
+        const grid = new Grid(50, 50);
+        grid.addObstacle(1,1);
+        grid.addObstacle(1,0);
+        robot.checkForObstacle(1, 0, grid);
+
+        expect(robot.ranIntoObstacle).toEqual(true);
+    });
+    it('should return true', () => {
+        const robot = new Robot(0, 0, 'west');
+        const grid = new Grid(50, 50);
+        grid.addObstacle(1,1);
+        grid.addObstacle(1,2);
+        grid.addObstacle(4,2);
+        robot.checkForObstacle(1, 2, grid);
+
+        expect(robot.ranIntoObstacle).toEqual(true);
+    });
+});
+
 describe('Move robot forward', () => {
     it('should return position 1, 0 and face south', () => {
         const robot = new Robot(0, 0, 'South');
