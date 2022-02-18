@@ -38,6 +38,24 @@ describe('Calculate move backward', () => {
     });
 });
 
+describe('Change direction robot is facing left', () => {
+    it('should return face south', () => {
+        const robot = new Robot(0, 0, 'west');
+        robot.changeFacing('l');
+
+        expect(robot.face()).toEqual('SOUTH');
+    });
+});
+
+describe('Change direction robot is facing right', () => {
+    it('should return face south', () => {
+        const robot = new Robot(0, 0, 'east');
+        robot.changeFacing('r');
+
+        expect(robot.face()).toEqual('SOUTH');
+    });
+});
+
 describe('Move robot forward', () => {
     it('should return position 1, 0 and face south', () => {
         const robot = new Robot(0, 0, 'South');
