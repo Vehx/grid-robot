@@ -32,7 +32,9 @@ describe('Add obstacle to grid', () => {
     it('should add obstacle at x48 y50', () => {
         const grid = new Grid(100,100);
         grid.addObstacle(48,50);
+        const obstacles = grid.obstacles;
 
-        expect(grid.obstacles).toContainEqual([48,50]);
+        expect(obstacles[0].x).toEqual(48);
+        expect(obstacles[0].y).toEqual(50);
     });
 });
