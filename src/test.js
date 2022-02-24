@@ -34,7 +34,6 @@ describe('Get /', () => {
         const response = await request(app)
             .get('/')
             .set('Accept', 'application/json');
-        // expect(response.headers["Content-Type"]).toMatch(/json/);
         expect(response.status).toEqual(200);
         expect(response.body.message).toEqual('We made it');
     });
@@ -51,7 +50,7 @@ describe('Get /', () => {
 describe('Case 1: Move robot on 100,100 grid', () => {
     it('should return position 2,2', async () => {
         const response = await request(app)
-            .post('/test')
+            .post('/')
             .send({
                 grid:{
                     x: 100,
@@ -65,10 +64,11 @@ describe('Case 1: Move robot on 100,100 grid', () => {
                 }
             })
             .set('Accept', 'application/json');
-        // expect(response.headers["Content-Type"]).toMatch(/json/);
         expect(response.status).toEqual(200);
-        // expect(response.body.position).toEqual(2,2);
-        expect(response.body.message).toEqual('Not implemented yet');
+        expect(response.body.position).toEqual('2, 2');
+        expect(response.body.isOutOfBounds).toEqual(false);
+        expect(response.body.ranIntoObstacle).toEqual(false);
+        expect(response.body.facing).toEqual('EAST');
     });
 });
 
@@ -83,7 +83,7 @@ describe('Case 1: Move robot on 100,100 grid', () => {
 describe('Case 2: Move robot on 50,50 grid', () => {
     it('should return position 1,0', async () => {
         const response = await request(app)
-            .post('/test')
+            .post('/')
             .send({
                 grid:{
                     x: 50,
@@ -97,10 +97,11 @@ describe('Case 2: Move robot on 50,50 grid', () => {
                 }
             })
             .set('Accept', 'application/json');
-        // expect(response.headers["Content-Type"]).toMatch(/json/);
         expect(response.status).toEqual(200);
-        // expect(response.body.position).toEqual(1,0);
-        expect(response.body.message).toEqual('Not implemented yet');
+        expect(response.body.position).toEqual('1, 0');
+        expect(response.body.isOutOfBounds).toEqual(true);
+        expect(response.body.ranIntoObstacle).toEqual(false);
+        expect(response.body.facing).toEqual('NORTH');
     });
 });
 
@@ -116,12 +117,12 @@ describe('Case 2: Move robot on 50,50 grid', () => {
 describe('Case 3: Move robot on 100,100 grid with obstacle', () => {
     it('should return position 48,49', async () => {
         const response = await request(app)
-            .post('/test')
+            .post('/')
             .send({
                 grid:{
                     x: 100,
                     y: 100,
-                    obstacle: [48,50]
+                    obstacle: [{x: 50 ,y: 48}]
                 },
                 robot:{
                     x: 50,
@@ -131,9 +132,10 @@ describe('Case 3: Move robot on 100,100 grid with obstacle', () => {
                 }
             })
             .set('Accept', 'application/json')
-        // expect(response.headers["Content-Type"]).toMatch(/json/);
         expect(response.status).toEqual(200);
-        // expect(response.body.position).toEqual(48,49);
-        expect(response.body.message).toEqual('Not implemented yet');
+        expect(response.body.position).toEqual('48, 49');
+        expect(response.body.isOutOfBounds).toEqual(false);
+        expect(response.body.ranIntoObstacle).toEqual(true);
+        expect(response.body.facing).toEqual('NORTH');
     });
 });
