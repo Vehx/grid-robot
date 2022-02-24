@@ -5,7 +5,7 @@
 // if not it should say it encountered an obstacle
 
 class Robot {
-    constructor(x = 0, y = 0, facing = "NORTH") {
+    constructor(x, y, facing) {
         this.x = x;
         this.y = y;
         this.facing = facing.toUpperCase();
@@ -15,11 +15,17 @@ class Robot {
 
     move(moveString, grid) {
         const moveArray = moveString.split('');
-        moveArray.forEach(currentMove => {
+        let nextPosition;
+        for (let i = 0; i < moveArray.length; i++) {
+            const currentMove = moveArray[i];
+            if (this.isOutOfBounds == true || this.ranIntoObstacle == true) {
+                break;
+            };
+
             if (currentMove == 'l' || currentMove == 'r') {
                 this.changeFacing(currentMove);
             } else {
-                let nextPosition = this.calculateNextMove(currentMove);
+                nextPosition = this.calculateNextMove(currentMove);
                 this.checkOutOfBounds(nextPosition.x, nextPosition.y, grid);
                 this.checkForObstacle(nextPosition.x, nextPosition.y, grid);
     
@@ -28,7 +34,8 @@ class Robot {
                     this.y = nextPosition.y;
                 };
             };
-        });
+        }
+        return true;
     };
 
     calculateNextMove(move) {
@@ -38,31 +45,31 @@ class Robot {
         if (move == 'f') {
             switch (this.facing) {
                 case 'NORTH':
-                    nextX =- 1;
+                    nextX = nextX - 1;
                     break;
                 case 'EAST':
-                    nextY =+ 1;
+                    nextY = nextY + 1;
                     break;
                 case 'SOUTH':
-                    nextX =+ 1;
+                    nextX = nextX + 1;
                     break;
                 default:
-                    nextY =- 1;
+                    nextY = nextY - 1;
                     break;
             };
         } else {
             switch (this.facing) {
                 case 'NORTH':
-                    nextX =+ 1;
+                    nextX = nextX + 1;
                     break;
                 case 'EAST':
-                    nextY =- 1;
+                    nextY = nextY - 1;
                     break;
                 case 'SOUTH':
-                    nextX =- 1;
+                    nextX = nextX - 1;
                     break;
                 default:
-                    nextY =+ 1;
+                    nextY = nextY + 1;
                     break;
             };
         };
@@ -130,7 +137,7 @@ class Robot {
     };
 
     position() {
-        return `${this.x}, ${this.y}`;
+        return `${this.y}, ${this.x}`;
     };
 };
 

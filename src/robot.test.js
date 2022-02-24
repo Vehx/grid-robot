@@ -4,7 +4,7 @@ const Grid = require('./grid');
 // robot tests
 describe('Create default robot', () => {
     it('should return position 0, 0', () => {
-        const robot = new Robot();
+        const robot = new Robot(0, 0, 'North');
 
         expect(robot.position()).toEqual('0, 0');
         expect(robot.face()).toEqual('NORTH');
@@ -165,12 +165,12 @@ describe('Check if next move is running into obstacle', () => {
 });
 
 describe('Move robot forward', () => {
-    it('should return position 1, 0 and face south', () => {
+    it('should return position 0, 1 and face south', () => {
         const robot = new Robot(0, 0, 'South');
         const grid = new Grid(50, 50);
         robot.move('f', grid);
 
-        expect(robot.position()).toEqual('1, 0');
+        expect(robot.position()).toEqual('0, 1');
         expect(robot.face()).toEqual('SOUTH');
     });
 });
@@ -194,5 +194,45 @@ describe('Move robot forward and change direction', () => {
 
         expect(robot.position()).toEqual('1, 1');
         expect(robot.face()).toEqual('EAST');
+    });
+});
+
+describe('Move robot forward and change direction', () => {
+    it('should return position 2, 2 and face east', () => {
+        const robot = new Robot(0, 0, 'SOUTH');
+        const grid = new Grid(100, 100);
+        robot.move('fflff', grid);
+
+        expect(robot.isOutOfBounds).toEqual(false);
+        expect(robot.ranIntoObstacle).toEqual(false);
+        expect(robot.position()).toEqual('2, 2');
+        expect(robot.face()).toEqual('EAST');
+    });
+});
+
+describe('Move robot forward and change direction', () => {
+    it('should return position 1, 0 and face west', () => {
+        const robot = new Robot(1, 1, 'North');
+        const grid = new Grid(50, 50);
+        robot.move('fflff', grid);
+
+        expect(robot.isOutOfBounds).toEqual(true);
+        expect(robot.ranIntoObstacle).toEqual(false);
+        expect(robot.position()).toEqual('1, 0');
+        expect(robot.face()).toEqual('NORTH');
+    });
+});
+
+describe('Move robot forward and change direction', () => {
+    it('should return position 48, 49 and face east', () => {
+        const robot = new Robot(50, 50, 'North');
+        const grid = new Grid(100, 100);
+        grid.addObstacle(50,48);
+        robot.move('fflffrbb', grid);
+
+        expect(robot.isOutOfBounds).toEqual(false);
+        expect(robot.ranIntoObstacle).toEqual(true);
+        expect(robot.position()).toEqual('48, 49');
+        expect(robot.face()).toEqual('NORTH');
     });
 });
