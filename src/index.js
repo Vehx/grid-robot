@@ -30,6 +30,7 @@ app.post('/', async (req, res) => {
     
     if (moved) {
         res.json({
+            status: robot.status,
             isOutOfBounds: robot.isOutOfBounds,
             ranIntoObstacle: robot.ranIntoObstacle,
             facing: robot.face(),
