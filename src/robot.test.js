@@ -236,3 +236,39 @@ describe('Move robot forward and change direction', () => {
         expect(robot.face()).toEqual('NORTH');
     });
 });
+
+describe('Check if status is correct', () => {
+    it('should return Idle', () => {
+        const robot = new Robot(49, 50, 'South');
+
+        expect(robot.isOutOfBounds).toEqual(false);
+        expect(robot.ranIntoObstacle).toEqual(false);
+        expect(robot.status).toEqual('Idle');
+    });
+    it('should return Ran into obstacle', () => {
+        const robot = new Robot(50, 50, 'North');
+        const grid = new Grid(50, 50);
+        grid.addObstacle(49,50);
+        robot.move('f',grid);
+        
+        expect(robot.ranIntoObstacle).toEqual(true);
+        expect(robot.status).toEqual('Robot ran into obstacle located at y:50, x:49. Robot stopped at: 50, 50');
+    });
+    it('should return Ran out of bounds', () => {
+        const robot = new Robot(50, 50, 'South');
+        const grid = new Grid(50, 50);
+        robot.move('f',grid);
+        
+        expect(robot.isOutOfBounds).toEqual(true);
+        expect(robot.status).toEqual('Robot ran out of bounds. Robot stopped at: 50, 50');
+    });
+    it('should return Finished command sequence', () => {
+        const robot = new Robot(50, 50, 'North');
+        const grid = new Grid(50, 50);
+        robot.move('fff',grid);
+        
+        expect(robot.ranIntoObstacle).toEqual(false);
+        expect(robot.isOutOfBounds).toEqual(false);
+        expect(robot.status).toEqual('Robot finished command sequence. Robot stopped at: 50, 47');
+    });
+});
