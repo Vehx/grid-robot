@@ -11,6 +11,7 @@ class Robot {
         this.facing = facing.toUpperCase();
         this.ranIntoObstacle = false;
         this.isOutOfBounds = false;
+        this.status = 'Idle';
     };
 
     move(moveString, grid) {
@@ -18,9 +19,6 @@ class Robot {
         let nextPosition;
         for (let i = 0; i < moveArray.length; i++) {
             const currentMove = moveArray[i];
-            if (this.isOutOfBounds == true || this.ranIntoObstacle == true) {
-                break;
-            };
 
             if (currentMove == 'l' || currentMove == 'r') {
                 this.changeFacing(currentMove);
@@ -32,9 +30,17 @@ class Robot {
                 if (this.isOutOfBounds == false && this.ranIntoObstacle == false) {
                     this.x = nextPosition.x;
                     this.y = nextPosition.y;
-                };
+                } else {
+                    if (this.ranIntoObstacle == true) {
+                        this.status = `Robot ran into obstacle located at y:${nextPosition.y}, x:${nextPosition.x}. Robot stopped at: ${this.position()}`;
+                    } else {
+                        this.status = `Robot ran out of bounds. Robot stopped at: ${this.position()}`;
+                    }
+                    break;
+                }
             };
-        }
+            this.status = `Robot finished command sequence. Robot stopped at: ${this.position()}`;
+        };
         return true;
     };
 
