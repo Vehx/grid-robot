@@ -69,6 +69,7 @@ describe('Case 1: Move robot on 100,100 grid', () => {
         expect(response.body.isOutOfBounds).toEqual(false);
         expect(response.body.ranIntoObstacle).toEqual(false);
         expect(response.body.facing).toEqual('EAST');
+        expect(response.body.status).toEqual('Robot finished command sequence. Robot stopped at: 2, 2');
     });
 });
 
@@ -102,6 +103,7 @@ describe('Case 2: Move robot on 50,50 grid', () => {
         expect(response.body.isOutOfBounds).toEqual(true);
         expect(response.body.ranIntoObstacle).toEqual(false);
         expect(response.body.facing).toEqual('NORTH');
+        expect(response.body.status).toEqual('Robot ran out of bounds. Robot stopped at: 1, 0');
     });
 });
 
@@ -137,5 +139,6 @@ describe('Case 3: Move robot on 100,100 grid with obstacle', () => {
         expect(response.body.isOutOfBounds).toEqual(false);
         expect(response.body.ranIntoObstacle).toEqual(true);
         expect(response.body.facing).toEqual('NORTH');
+        expect(response.body.status).toEqual('Robot ran into obstacle located at y:48, x:50. Robot stopped at: 48, 49');
     });
 });
